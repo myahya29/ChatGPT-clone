@@ -12,15 +12,16 @@
 <div id="app" class="h-full flex">
 
   <!--SIDEBAR-->
-  <aside id="sidebar" class="w-64 border-r flex flex-col">
+  <aside id="sidebar" class="w-64 border-r flex flex-col fixed md:relative md:translate-x-0 -translate-x-full transition-transform z-20">
 
     <!-- Logo -->
-    <div class="h-16 flex items-center px-4">
+    <div class="h-16 flex items-center justify-between px-4">
       <img
         src="./images/chatgpt logo.png"
         alt="ChatGPT Logo"
         class="h-8 w-8"
       />
+      <button id="close-sidebar" class="md:hidden text-xl">&times;</button>
     </div>
       <!-- New Chat -->
     <div class="px-3">
@@ -43,13 +44,18 @@
 
   </aside>
 
+  <!-- Overlay for mobile -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden md:hidden z-10"></div>
 
     <!--MAIN CHAT-->
   <div class="flex-1 flex flex-col">
 
     <!-- Header -->
     <header class="h-16 flex items-center justify-between px-6 border-b">
-      <h1 class="text-lg font-semibold">ChatGPT</h1>
+      <div class="flex items-center gap-4">
+        <button id="menu-btn" class="md:hidden text-xl">☰</button>
+        <h1 class="text-lg font-semibold">ChatGPT</h1>
+      </div>
       <button class="text-sm text-gray-500">Get Plus</button>
     </header>
 
@@ -103,5 +109,6 @@
   </div>
 
 </div>
+<script src="app.js"></script>
 </body>
 </html>
