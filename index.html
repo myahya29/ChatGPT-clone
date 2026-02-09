@@ -44,73 +44,64 @@
   </aside>
 
 
-    <!--MAIN CHAT AREA-->
-    <div class="flex-1 flex flex-col">
+    <!-- ================= MAIN CHAT ================= -->
+  <div class="flex-1 flex flex-col">
 
-      <!--HEADER-->
-      <header id="app-header">
-        <h1>ChatGPT Clone</h1>
-      </header>
+    <!-- Header -->
+    <header class="h-16 flex items-center justify-between px-6 border-b">
+      <h1 class="text-lg font-semibold">ChatGPT</h1>
+      <button class="text-sm text-gray-500">Get Plus</button>
+    </header>
 
-      <!--CHAT AREA-->
-      <main id="chat-area" class="flex-1">
+    <!-- ================= CHAT AREA ================= -->
+    <main class="flex-1 flex flex-col justify-center items-center px-4">
 
-        <!-- Messages container -->
-        <div id="messages">
-            <!-- Messages container -->
-        <div id="messages">
+      <!-- Empty State -->
+      <h2 class="text-3xl font-semibold mb-10">
+        What’s on your mind today?
+      </h2>
 
-          <!-- AI message sample -->
-          <!--
-          <div class="ai-message">
-            <p>Hello, how can I help you?</p>
-            <span class="time">10:30 AM</span>
-          </div>
-          -->
+      <!-- Messages -->
+      <div id="messages" class="w-full max-w-3xl space-y-4 hidden"></div>
 
-          <!-- User message sample -->
-          <!--
-          <div class="user-message">
-            <p>Explain JavaScript closures</p>
-            <span class="time">10:31 AM</span>
-          </div>
-          -->
+      <!-- Loading -->
+      <div id="loading" class="hidden text-sm text-gray-500">
+        AI is typing...
+      </div>
 
-        </div>
+    </main>
+         <!-- ================= INPUT AREA ================= -->
+    <footer class="pb-6 px-4">
 
-        <!-- Loading indicator -->
-        <div id="loading" hidden>
-          <p>AI is typing...</p>
-        </div>
+      <div class="max-w-3xl mx-auto relative">
 
-      </main>
-
-      <!--INPUT AREA-->
-      <footer id="input-area">
-
-        <!-- User input -->
         <input
-          type="text"
           id="user-input"
-          placeholder="Type your message..."
+          type="text"
+          placeholder="Ask anything"
+          class="w-full border rounded-full py-3 pl-12 pr-14 text-sm focus:outline-none"
         />
 
-        <!-- Send button -->
-        <button id="send-btn" disabled>
-          Send
-        </button>
-         <!-- Clear chat -->
-        <button id="clear-btn">
-          Clear
+        <!-- Plus Icon -->
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400">
+          +
+        </span>
+
+        <!-- Send Button -->
+        <button
+          id="send-btn"
+          disabled
+          class="absolute right-3 top-1/2 -translate-y-1/2 bg-black text-white rounded-full h-8 w-8 flex items-center justify-center"
+        >
+          →
         </button>
 
-      </footer>
+      </div>
 
-    </div>
+    </footer>
 
   </div>
 
-
-
+</div>
 </body>
 </html>
