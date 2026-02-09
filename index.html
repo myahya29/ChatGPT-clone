@@ -6,23 +6,22 @@
   <link href="./src/output.css" rel="stylesheet">
   <title>ChatGPT</title>
 </head>
-<body>
-  <body class="h-screen">
+ <body class="h-screen bg-white text-gray-900">
 
-  <!-- < APP CONTAINER --> 
-  <div id="app" class="h-full flex">
+<!-- ================= APP CONTAINER ================= -->
+<div id="app" class="h-full flex">
 
-    <!--SIDEBAR  -->
-    <aside id="sidebar">
+  <!-- ================= SIDEBAR ================= -->
+  <aside id="sidebar" class="w-64 border-r flex flex-col">
 
-      <!-- Logo Section -->
-      <div id="logo-section">
-        <img
-          src="./images/chatgpt logo.png"
-          alt="App Logo"
-          id="app-logo"
-        />
-      </div>
+    <!-- Logo -->
+    <div class="h-16 flex items-center px-4">
+      <img
+        src="./images/chatgpt logo.png"
+        alt="ChatGPT Logo"
+        class="h-8 w-8"
+      />
+    </div>
        <!--New Chat Button -->
       <button id="new-chat-btn">
         + New Chat
