@@ -208,7 +208,9 @@ async function sendToAPI(userInput) {
   const data = await response.json();
   return data.choices[0].message.content;
 }
-
+//----------------------- MY API KEY--------------------------
 // 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
-// tngtech/deepseek-r1t2-chimera:free
+
+
+// --------------------------MY API MODEL-------------------------
 // deepseek/deepseek-r1-0528:free
