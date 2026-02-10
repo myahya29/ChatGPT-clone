@@ -211,3 +211,4 @@ async function sendToAPI(userInput) {
 
 // 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
 // tngtech/deepseek-r1t2-chimera:free
+// deepseek/deepseek-r1-0528:free
