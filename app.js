@@ -43,7 +43,7 @@ var closeBtn = document.querySelector('#close-sidebar');
 
 var MAX_LENGTH = 200;
 
-  //  SIDEBAR
+  //  SIDEBAR TOGGLE
 
 menuBtn.onclick = function () {
   sidebar.classList.remove('-translate-x-full');
@@ -54,7 +54,29 @@ closeBtn.onclick = overlay.onclick = function () {
   sidebar.classList.add('-translate-x-full');
   overlay.classList.add('hidden');
 };
+// INPUT CHECK
+input.oninput = function () {
+  sendBtn.disabled = input.value.trim() === '';
+};
 
 
-  
+  //  SEND MESSAGE (USER ONLY)
+
+sendBtn.onclick = function () {
+  var text = input.value.trim();
+  if (text === '') return;
+
+  if (text.length > MAX_LENGTH) {
+    alert('Max ' + MAX_LENGTH + ' characters allowed');
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  messages.classList.remove('hidden');
+
+  addMessage(text, 'user');
+
+  input.value = '';
+  sendBtn.disabled = true;
+};
 
