@@ -79,4 +79,35 @@ sendBtn.onclick = function () {
   input.value = '';
   sendBtn.disabled = true;
 };
+//  ADD MESSAGE
+
+function addMessage(text, type) {
+  var msg = document.createElement('div');
+  msg.className =
+    'max-w-[70%] px-4 py-2 rounded-lg text-sm animate-fade';
+
+  if (type === 'user') {
+    msg.classList.add(
+      'bg-black',
+      'text-white',
+      'ml-auto',
+      'text-right'
+    );
+  } else {
+    msg.classList.add(
+      'bg-gray-100',
+      'text-black',
+      'mr-auto'
+    );
+  }
+
+  msg.innerHTML = `
+    <div>${text}</div>
+    <div class="text-xs opacity-50 mt-1">${getTime()}</div>
+  `;
+
+  messages.appendChild(msg);
+  autoScroll();
+}
+
 
