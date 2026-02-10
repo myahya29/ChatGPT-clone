@@ -23,3 +23,6 @@
     overlay.classList.add('hidden');
   });
 
+  // MAIN LOGIC SECTION 
+  
+
