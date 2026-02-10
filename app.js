@@ -39,5 +39,22 @@ var overlay = document.querySelector('#overlay');
 var menuBtn = document.querySelector('#menu-btn');
 var closeBtn = document.querySelector('#close-sidebar');
 
+// SETTINGS
+
+var MAX_LENGTH = 200;
+
+  //  SIDEBAR
+
+menuBtn.onclick = function () {
+  sidebar.classList.remove('-translate-x-full');
+  overlay.classList.remove('hidden');
+};
+
+closeBtn.onclick = overlay.onclick = function () {
+  sidebar.classList.add('-translate-x-full');
+  overlay.classList.add('hidden');
+};
+
+
   
 
