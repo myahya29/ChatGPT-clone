@@ -12,7 +12,8 @@
 <div id="app" class="h-full flex">
 
   <!-- SIDEBAR -->
-  <aside id="sidebar" class="w-64 border-r flex flex-col fixed md:relative -translate-x-full md:translate-x-0 transition-transform z-20 bg-white">
+  <aside id="sidebar"
+    class="w-64 border-r flex flex-col fixed md:relative -translate-x-full md:translate-x-0 transition-transform z-20 bg-white">
 
     <div class="h-16 flex items-center justify-between px-4">
       <img src="./images/chatgpt logo.png" class="h-8 w-8" />
@@ -20,10 +21,16 @@
     </div>
 
     <div class="px-3">
-      <button id="new-chat-btn" class="w-full border rounded-lg px-3 py-2 text-sm flex items-center gap-2">+ New chat</button>
+      <button id="new-chat-btn"
+        class="w-full border rounded-lg px-3 py-2 text-sm flex items-center gap-2">
+        + New chat
+      </button>
     </div>
 
-    <div id="chat-history" class="flex-1 overflow-y-auto px-3 py-4 text-sm text-gray-500"></div>
+    <!-- HISTORY -->
+    <div id="chat-history"
+      class="flex-1 overflow-y-auto px-3 py-4 text-sm text-gray-600 space-y-1">
+    </div>
 
     <div class="border-t px-4 py-3 text-sm">Muhammad Yahya</div>
   </aside>
@@ -41,24 +48,35 @@
       <button class="text-sm text-gray-500">Get Plus</button>
     </header>
 
-    <main class="flex-1 flex flex-col px-4 justify-center items-center text-center">
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col px-4">
 
-      <!-- Empty state -->
-      <h2 id="empty-state" class="text-3xl font-semibold mt-10">What’s on your mind today?</h2>
+      <h2 id="empty-state"
+        class="text-3xl font-semibold text-center mt-10">
+        What’s on your mind today?
+      </h2>
 
-      <!-- Input + Send in same line -->
-      <div class="flex w-full max-w-md mt-6">
-        <input id="user-input" type="text" placeholder="Ask anything"
-          class="flex-1 border rounded-full py-3 px-4 text-sm focus:outline-none" />
-        <button id="send-btn" disabled class="ml-2 bg-black text-white rounded-full h-10 w-10 flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed">→</button>
+      <!-- MESSAGES -->
+      <div id="messages"
+        class="flex-1 w-full max-w-3xl mx-auto space-y-4 overflow-y-auto py-6 hidden">
       </div>
 
-      <!-- Messages -->
-      <div id="messages" class="w-full max-w-3xl mx-auto space-y-4 overflow-y-auto flex-1 hidden py-6 mt-4"></div>
+      <!-- INPUT -->
+      <div class="w-full max-w-3xl mx-auto mb-4">
+        <div class="flex">
+          <input id="user-input" type="text" placeholder="Ask anything"
+            class="flex-1 border rounded-full py-3 px-4 text-sm focus:outline-none" />
+          <button id="send-btn" disabled
+            class="ml-2 bg-black text-white rounded-full h-10 w-10 flex items-center justify-center disabled:opacity-40">
+            →
+          </button>
+        </div>
+        <div id="loading" class="hidden text-sm text-gray-500 mt-2">
+          AI is typing...
+        </div>
+      </div>
 
-      <div id="loading" class="hidden text-sm text-gray-500 text-center mb-2">AI is typing...</div>
     </main>
-
   </div>
 </div>
 
