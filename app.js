@@ -23,6 +23,21 @@
     overlay.classList.add('hidden');
   });
 
-  // MAIN LOGIC SECTION 
+    // ------------------------- MAIN LOGIC SECTION -----------------------
+ 
+  //  SELECT ELEMENTS
+
+var input = document.querySelector('#user-input');
+var sendBtn = document.querySelector('#send-btn');
+var messages = document.querySelector('#messages');
+var loading = document.querySelector('#loading');
+var emptyState = document.querySelector('#empty-state');
+
+var newChatBtn = document.querySelector('#new-chat-btn');
+var sidebar = document.querySelector('#sidebar');
+var overlay = document.querySelector('#overlay');
+var menuBtn = document.querySelector('#menu-btn');
+var closeBtn = document.querySelector('#close-sidebar');
+
   
 
