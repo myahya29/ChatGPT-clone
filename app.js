@@ -109,5 +109,20 @@ function addMessage(text, type) {
   messages.appendChild(msg);
   autoScroll();
 }
-
+//  HELPERS
+function autoScroll() {
+  messages.scrollTop = messages.scrollHeight;
+}
+function getTime() {
+  var d = new Date();
+  var m = d.getMinutes();
+  if (m < 10) m = '0' + m;
+  return d.getHours() + ':' + m;
+}
+  // CLEAR CHAT
+newChatBtn.onclick = function () {
+  messages.innerHTML = '';
+  messages.classList.add('hidden');
+  emptyState.style.display = 'block';
+};
 
