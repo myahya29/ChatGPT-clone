@@ -4,7 +4,6 @@
 var input = document.querySelector('#user-input');
 var sendBtn = document.querySelector('#send-btn');
 var messages = document.querySelector('#messages');
-var loading = document.querySelector('#loading');
 var emptyState = document.querySelector('#empty-state');
 
 var newChatBtn = document.querySelector('#new-chat-btn');
@@ -13,6 +12,7 @@ var overlay = document.querySelector('#overlay');
 var menuBtn = document.querySelector('#menu-btn');
 var closeBtn = document.querySelector('#close-sidebar');
 var chatHistory = document.querySelector('#chat-history');
+var typingIndicator = document.querySelector('#typing-indicator');
 
 /* =====================
    CHAT DATA
@@ -62,8 +62,8 @@ async function sendMessage() {
   input.value = '';
   sendBtn.disabled = true;
 
-  var aiBubble = addMessage('', 'ai');
   showLoading();
+  var aiBubble = addMessage('', 'ai');
 
   try {
     var response = await sendToAPI(text);
@@ -86,25 +86,40 @@ input.addEventListener('keydown', function (e) {
 });
 
 /* =====================
-   ADD MESSAGE
+   ADD MESSAGE (WITH TIME)
 ===================== */
 function addMessage(text, type) {
-  var msg = document.createElement('div');
-  msg.className = 'max-w-[70%] px-4 py-2 rounded-lg text-sm';
+  var wrapper = document.createElement('div');
+  wrapper.className = 'flex flex-col max-w-[75%]';
 
   if (type === 'user') {
-    msg.classList.add('bg-black', 'text-white', 'ml-auto');
+    wrapper.classList.add('ml-auto', 'items-end');
   } else {
-    msg.classList.add('bg-gray-100', 'mr-auto');
+    wrapper.classList.add('mr-auto', 'items-start');
   }
 
-  var content = document.createElement('div');
-  content.textContent = text;
-  msg.appendChild(content);
+  var bubble = document.createElement('div');
+  bubble.className = 'px-4 py-2 rounded-lg text-sm';
 
-  messages.appendChild(msg);
+  if (type === 'user') {
+    bubble.classList.add('bg-black', 'text-white');
+  } else {
+    bubble.classList.add('bg-gray-100');
+  }
+
+  bubble.textContent = text;
+
+  var time = document.createElement('span');
+  time.className = 'text-xs text-gray-400 mt-1';
+  time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  wrapper.appendChild(bubble);
+  wrapper.appendChild(time);
+
+  messages.appendChild(wrapper);
   autoScroll();
-  return content;
+
+  return bubble;
 }
 
 /* =====================
@@ -116,7 +131,7 @@ function typeEffect(el, text) {
     el.textContent += text[i++];
     autoScroll();
     if (i >= text.length) clearInterval(interval);
-  }, 15);
+  }, 5);
 }
 
 /* =====================
@@ -128,7 +143,7 @@ function saveMessage(role, text) {
 }
 
 /* =====================
-   HISTORY
+   HISTORY UI
 ===================== */
 function renderHistory() {
   chatHistory.innerHTML = '';
@@ -136,21 +151,36 @@ function renderHistory() {
   chats.forEach(chat => {
     var item = document.createElement('div');
     item.className =
-      'flex justify-between items-center px-2 py-1 rounded hover:bg-gray-100 cursor-pointer';
+      'flex justify-between items-center px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition';
 
-    item.innerHTML = `
-      <span>${chat.title.slice(0, 20)}</span>
-      <button class="text-red-500 text-xs">✕</button>
-    `;
+    var left = document.createElement('div');
+    left.className = 'flex flex-col';
 
-    item.onclick = () => loadChat(chat.id);
-    item.querySelector('button').onclick = (e) => {
+    var title = document.createElement('span');
+    title.textContent = chat.title.slice(0, 25);
+
+    var time = document.createElement('span');
+    time.className = 'text-xs text-gray-400';
+    time.textContent = new Date(chat.id).toLocaleDateString();
+
+    left.appendChild(title);
+    left.appendChild(time);
+
+    var del = document.createElement('button');
+    del.textContent = '✕';
+    del.className = 'text-red-400 text-xs hover:text-red-600';
+
+    del.onclick = (e) => {
       e.stopPropagation();
       chats = chats.filter(c => c.id !== chat.id);
       renderHistory();
       messages.innerHTML = '';
       emptyState.style.display = 'block';
     };
+
+    item.appendChild(left);
+    item.appendChild(del);
+    item.onclick = () => loadChat(chat.id);
 
     chatHistory.appendChild(item);
   });
@@ -169,9 +199,18 @@ function loadChat(id) {
 /* =====================
    HELPERS
 ===================== */
-function showLoading() { loading.classList.remove('hidden'); }
-function hideLoading() { loading.classList.add('hidden'); }
-function autoScroll() { messages.scrollTop = messages.scrollHeight; }
+function showLoading() {
+  typingIndicator.classList.remove('hidden');
+  autoScroll();
+}
+
+function hideLoading() {
+  typingIndicator.classList.add('hidden');
+}
+
+function autoScroll() {
+  messages.scrollTop = messages.scrollHeight;
+}
 
 /* =====================
    NEW CHAT
@@ -187,8 +226,8 @@ newChatBtn.onclick = function () {
    OPENROUTER API
 ===================== */
 async function sendToAPI(userInput) {
-  const API_KEY = "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";   // apni key
-  const MODEL = "deepseek/deepseek-r1-0528:free";     // model name
+  const API_KEY = "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";
+  const MODEL = "deepseek/deepseek-r1-0528:free";
 
   const response = await fetch(
     "https://openrouter.ai/api/v1/chat/completions",
@@ -208,6 +247,7 @@ async function sendToAPI(userInput) {
   const data = await response.json();
   return data.choices[0].message.content;
 }
+
 //----------------------- MY API KEY--------------------------
 // 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
 

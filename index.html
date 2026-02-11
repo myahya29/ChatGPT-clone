@@ -15,24 +15,34 @@
   <aside id="sidebar"
     class="w-64 border-r flex flex-col fixed md:relative -translate-x-full md:translate-x-0 transition-transform z-20 bg-white">
 
-    <div class="h-16 flex items-center justify-between px-4">
-      <img src="./images/chatgpt logo.png" class="h-8 w-8" />
+    <div class="h-16 flex items-center justify-between px-4 border-b">
+      <div class="flex items-center gap-2">
+        <img src="./images/chatgpt logo.png" class="h-8 w-8" />
+        <span class="font-semibold">ChatGPT</span>
+      </div>
       <button id="close-sidebar" class="md:hidden text-xl">&times;</button>
     </div>
 
-    <div class="px-3">
+    <!-- TOP MENU -->
+    <div class="px-3 py-3 space-y-2 border-b text-sm">
       <button id="new-chat-btn"
-        class="w-full border rounded-lg px-3 py-2 text-sm flex items-center gap-2">
-        + New chat
+        class="w-full text-left flex items-center gap-2 px-2 py-2 rounded hover:bg-gray-100">
+        ➕ New chat
       </button>
+      <div class="flex items-center gap-2 px-2 py-2 rounded hover:bg-gray-100 cursor-pointer">
+        🔍 Search chats
+      </div>
+      <div class="flex items-center gap-2 px-2 py-2 rounded hover:bg-gray-100 cursor-pointer">
+        🖼 Images
+      </div>
     </div>
 
     <!-- HISTORY -->
     <div id="chat-history"
-      class="flex-1 overflow-y-auto px-3 py-4 text-sm text-gray-600 space-y-1">
+      class="flex-1 overflow-y-auto px-3 py-4 text-sm text-gray-600 space-y-2">
     </div>
 
-    <div class="border-t px-4 py-3 text-sm">Muhammad Yahya</div>
+    <div class="border-t px-4 py-3 text-sm">Muhammad Ali</div>
   </aside>
 
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden md:hidden z-10"></div>
@@ -48,17 +58,23 @@
       <button class="text-sm text-gray-500">Get Plus</button>
     </header>
 
-    <!-- MAIN -->
     <main class="flex-1 flex flex-col px-4">
 
       <h2 id="empty-state"
         class="text-3xl font-semibold text-center mt-10">
         What’s on your mind today?
-      </h2><br>
+      </h2>
 
       <!-- MESSAGES -->
       <div id="messages"
         class="flex-1 w-full max-w-3xl mx-auto space-y-4 overflow-y-auto py-6 hidden">
+        
+        <!-- AI TYPING INSIDE CHAT -->
+        <div id="typing-indicator"
+          class="hidden text-sm text-gray-500 animate-pulse">
+          AI is typing...
+        </div>
+
       </div>
 
       <!-- INPUT -->
@@ -70,9 +86,6 @@
             class="ml-2 bg-black text-white rounded-full h-10 w-10 flex items-center justify-center disabled:opacity-40">
             →
           </button>
-        </div>
-        <div id="loading" class="hidden text-sm text-gray-500 mt-2">
-          AI is typing...
         </div>
       </div>
 
