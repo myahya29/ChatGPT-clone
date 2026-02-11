@@ -12,7 +12,6 @@ var overlay = document.querySelector('#overlay');
 var menuBtn = document.querySelector('#menu-btn');
 var closeBtn = document.querySelector('#close-sidebar');
 var chatHistory = document.querySelector('#chat-history');
-var typingIndicator = document.querySelector('#typing-indicator');
 
 /* =====================
    CHAT DATA
@@ -62,17 +61,14 @@ async function sendMessage() {
   input.value = '';
   sendBtn.disabled = true;
 
-  showLoading();
-  var aiBubble = addMessage('', 'ai');
+  var aiBubble = addMessage("AI is typing...", 'ai');
 
   try {
     var response = await sendToAPI(text);
-    typeEffect(aiBubble, response);
+    aiBubble.innerHTML = formatMarkdown(response);
     saveMessage('ai', response);
   } catch {
-    aiBubble.textContent = '⚠️ Error';
-  } finally {
-    hideLoading();
+    aiBubble.innerHTML = "⚠️ Error";
   }
 }
 
@@ -86,36 +82,33 @@ input.addEventListener('keydown', function (e) {
 });
 
 /* =====================
-   ADD MESSAGE (WITH TIME)
+   ADD MESSAGE
 ===================== */
 function addMessage(text, type) {
+
   var wrapper = document.createElement('div');
-  wrapper.className = 'flex flex-col max-w-[75%]';
+  wrapper.className = 'flex';
 
   if (type === 'user') {
-    wrapper.classList.add('ml-auto', 'items-end');
+    wrapper.classList.add('justify-end');
   } else {
-    wrapper.classList.add('mr-auto', 'items-start');
+    wrapper.classList.add('justify-start');
   }
 
   var bubble = document.createElement('div');
-  bubble.className = 'px-4 py-2 rounded-lg text-sm';
+
+  bubble.className =
+    'max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed';
 
   if (type === 'user') {
     bubble.classList.add('bg-black', 'text-white');
   } else {
-    bubble.classList.add('bg-gray-100');
+    bubble.classList.add('bg-gray-100', 'text-gray-800');
   }
 
-  bubble.textContent = text;
-
-  var time = document.createElement('span');
-  time.className = 'text-xs text-gray-400 mt-1';
-  time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  bubble.innerHTML = formatMarkdown(text);
 
   wrapper.appendChild(bubble);
-  wrapper.appendChild(time);
-
   messages.appendChild(wrapper);
   autoScroll();
 
@@ -123,15 +116,43 @@ function addMessage(text, type) {
 }
 
 /* =====================
-   TYPING EFFECT
+   MARKDOWN FORMATTER
 ===================== */
-function typeEffect(el, text) {
-  let i = 0;
-  let interval = setInterval(() => {
-    el.textContent += text[i++];
-    autoScroll();
-    if (i >= text.length) clearInterval(interval);
-  }, 5);
+function formatMarkdown(text) {
+
+  // Code blocks
+  text = text.replace(/```([\s\S]*?)```/g, function(match, p1) {
+    return `
+      <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-xs mt-2">
+        <code>${escapeHTML(p1)}</code>
+      </pre>
+    `;
+  });
+
+  // Inline code
+  text = text.replace(/`(.*?)`/g,
+    '<code class="bg-gray-200 px-1 py-0.5 rounded text-xs">$1</code>');
+
+  // Bold
+  text = text.replace(/\*\*(.*?)\*\*/g,
+    '<strong class="font-semibold">$1</strong>');
+
+  // Headings
+  text = text.replace(/^### (.*$)/gim,
+    '<h3 class="font-semibold text-base mt-3 mb-1">$1</h3>');
+  text = text.replace(/^## (.*$)/gim,
+    '<h2 class="font-semibold text-lg mt-3 mb-1">$1</h2>');
+  text = text.replace(/^# (.*$)/gim,
+    '<h1 class="font-semibold text-xl mt-3 mb-1">$1</h1>');
+
+  // Line breaks
+  text = text.replace(/\n/g, "<br>");
+
+  return text;
+}
+
+function escapeHTML(str) {
+  return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 /* =====================
@@ -143,7 +164,7 @@ function saveMessage(role, text) {
 }
 
 /* =====================
-   HISTORY UI
+   HISTORY
 ===================== */
 function renderHistory() {
   chatHistory.innerHTML = '';
@@ -153,18 +174,8 @@ function renderHistory() {
     item.className =
       'flex justify-between items-center px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition';
 
-    var left = document.createElement('div');
-    left.className = 'flex flex-col';
-
     var title = document.createElement('span');
     title.textContent = chat.title.slice(0, 25);
-
-    var time = document.createElement('span');
-    time.className = 'text-xs text-gray-400';
-    time.textContent = new Date(chat.id).toLocaleDateString();
-
-    left.appendChild(title);
-    left.appendChild(time);
 
     var del = document.createElement('button');
     del.textContent = '✕';
@@ -178,7 +189,7 @@ function renderHistory() {
       emptyState.style.display = 'block';
     };
 
-    item.appendChild(left);
+    item.appendChild(title);
     item.appendChild(del);
     item.onclick = () => loadChat(chat.id);
 
@@ -199,15 +210,6 @@ function loadChat(id) {
 /* =====================
    HELPERS
 ===================== */
-function showLoading() {
-  typingIndicator.classList.remove('hidden');
-  autoScroll();
-}
-
-function hideLoading() {
-  typingIndicator.classList.add('hidden');
-}
-
 function autoScroll() {
   messages.scrollTop = messages.scrollHeight;
 }
@@ -226,6 +228,7 @@ newChatBtn.onclick = function () {
    OPENROUTER API
 ===================== */
 async function sendToAPI(userInput) {
+
   const API_KEY = "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";
   const MODEL = "deepseek/deepseek-r1-0528:free";
 
@@ -239,7 +242,9 @@ async function sendToAPI(userInput) {
       },
       body: JSON.stringify({
         model: MODEL,
-        messages: [{ role: "user", content: userInput }]
+        messages: [
+          { role: "user", content: userInput }
+        ]
       })
     }
   );
@@ -247,6 +252,7 @@ async function sendToAPI(userInput) {
   const data = await response.json();
   return data.choices[0].message.content;
 }
+
 
 //----------------------- MY API KEY--------------------------
 // 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
