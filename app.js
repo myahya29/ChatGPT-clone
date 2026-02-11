@@ -254,3 +254,6 @@ async function sendToAPI(userInput) {
 
 // --------------------------MY API MODEL-------------------------
 // deepseek/deepseek-r1-0528:free
+
+// ----------------------secondary API KEY-------------------------
+// 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
