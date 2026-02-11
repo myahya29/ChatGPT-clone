@@ -187,7 +187,7 @@ newChatBtn.onclick = function () {
    OPENROUTER API
 ===================== */
 async function sendToAPI(userInput) {
-  const API_KEY = "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";   // apni key
+  const API_KEY = "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";   // apni key
   const MODEL = "deepseek/deepseek-r1-0528:free";     // model name
 
   const response = await fetch(
@@ -209,7 +209,7 @@ async function sendToAPI(userInput) {
   return data.choices[0].message.content;
 }
 //----------------------- MY API KEY--------------------------
-// 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
+// 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
 
 
 // --------------------------MY API MODEL-------------------------
